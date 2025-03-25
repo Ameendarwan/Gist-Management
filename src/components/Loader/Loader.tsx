@@ -1,155 +1,30 @@
+import React, { FC } from 'react';
+
+import PulseLoader from 'react-spinners/PulseLoader';
+import RotateLoader from 'react-spinners/RotateLoader';
+
 interface LoaderProps {
-  width?: string;
-  height?: string;
+  type?: 'rotate' | 'pulse';
+  color?: string;
+  size?: number;
+  isFullPageLoader?: boolean;
 }
 
-const Loader = ({ width, height }: LoaderProps) => {
-  return (
-    <svg
-      data-testid="loader"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid"
-      style={{ shapeRendering: 'auto', display: 'block', background: 'transparent' }}
-      width={width ?? '200'}
-      height={height ?? '200'}>
-      <g>
-        <g transform="rotate(0 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.9166666666666666s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(30 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.8333333333333334s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(60 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.75s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(90 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.6666666666666666s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(120 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.5833333333333334s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(150 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.5s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(180 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.4166666666666667s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(210 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.3333333333333333s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(240 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.25s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(270 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.16666666666666666s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(300 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="-0.08333333333333333s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g transform="rotate(330 50 50)">
-          <rect fill="#000000" height="12" width="6" ry="3.12" rx="3" y="24" x="47">
-            <animate
-              repeatCount="indefinite"
-              begin="0s"
-              dur="1s"
-              keyTimes="0;1"
-              values="1;0"
-              attributeName="opacity"></animate>
-          </rect>
-        </g>
-        <g></g>
-      </g>
-    </svg>
-  );
+const loaderMap: Record<string, FC<{ color?: string; size?: number }>> = {
+  rotate: RotateLoader,
+  pulse: PulseLoader,
+};
+
+const Loader: FC<LoaderProps> = ({ type = 'pulse', color = '#003B44', size = 20, isFullPageLoader }) => {
+  const SelectedLoader = loaderMap[type];
+
+  if (isFullPageLoader)
+    return (
+      <div className="flex h-[80vh] w-full items-center justify-center">
+        <SelectedLoader color={color} size={size} />
+      </div>
+    );
+  return <SelectedLoader color={color} size={size} />;
 };
 
 export default Loader;

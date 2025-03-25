@@ -19,14 +19,16 @@ module.exports = {
         2: '2',
       },
       colors: {
-        border: '#CCCCCC',
+        border: '#EFEFEF',
+        darkBorder: '#A3A3A3',
         separator: '#EDEDED',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: '#FFFFFF',
+        backgroundGray: '#FAFAFA',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#3296FF',
+          DEFAULT: '#003B44',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
@@ -69,26 +71,9 @@ module.exports = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
-        grayShades: {
-          shade1: '#F2F2F2',
-          shade2: '#F8F9F9',
-          shade3: '#DEDEDE',
-          shade4: '#E6E6E6',
-          shade5: '#686868',
-          shade6: '#8B8B8B',
-        },
-        blueShades: {
-          shade1: '#E4EBFD',
-        },
-        blackShades: {
-          shade1: '#2D2D2D',
-        },
-        redShades: {
-          shade1: '#d63939',
-        },
-        greenShades: {
-          shade1: '#2fb344',
-        },
+        text: '#3D3D3D',
+        secondaryText: '#7A7A7A',
+        lightText: '#B7B7B7',
         validations: {
           edge: '#D83020',
           upstream: '#169C7C',
@@ -103,7 +88,7 @@ module.exports = {
         custom: '0.9375rem',
       },
       fontFamily: {
-        mont: ['Mont', 'serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {

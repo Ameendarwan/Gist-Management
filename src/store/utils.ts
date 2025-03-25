@@ -1,10 +1,9 @@
 import { FetchBaseQueryArgs } from '@reduxjs/toolkit/query';
-import auth from '@app/utils/auth';
 
 export const baseQuery: FetchBaseQueryArgs = {
-  baseUrl: import.meta.env.VITE_REACT_APP_API_URL,
+  baseUrl: import.meta.env.VITE_GITHUB_BASE_API_URL,
   prepareHeaders: headers => {
-    const token = auth.token();
+    const token = import.meta.env.VITE_GITHUB_PERSONAL_ACCESS_TOKEN;
     headers.set('Authorization', `Bearer ${token}`);
     return headers;
   },

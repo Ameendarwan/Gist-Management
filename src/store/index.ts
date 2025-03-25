@@ -1,20 +1,19 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { Middleware, combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { gistApi } from './apis/gist';
 import { setupListeners } from '@reduxjs/toolkit/query';
-
-const dummyReducer = () => ({});
 
 /**
  * Combine all reducers into a single root reducer, extend as needed
  */
 export const rootReducer = combineReducers({
-  dummy: dummyReducer,
+  [gistApi.reducerPath]: gistApi.reducer,
 });
 
 /**
  * Add any custom middleware here. Remove the `any` type and add your own middleware types.
  */
-const middleware = [] as any;
+const middleware = [gistApi.middleware] as Middleware[];
 
 /**
  * The root state of the Redux store.

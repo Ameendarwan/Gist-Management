@@ -1,4 +1,6 @@
-# Vite Shadcn Template
+# Gist App
+
+Gist App is a platform that allows users to browse, search, create, and manage GitHub Gists. It provides an intuitive interface for viewing and organizing gists, with support for multiple file types and syntax highlighting. Users can seamlessly create and edit gists with a built-in code editor, star their favorite gists, and explore public gists shared by others.
 
 This project has been bootstrapped with:
 

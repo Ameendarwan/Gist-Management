@@ -17,7 +17,7 @@ const testExclusions = [
 
 export default defineConfig({
   plugins: [react()],
-  envDir: './env',
+  envDir: 'env',
   resolve: {
     alias: {
       '@app': path.resolve(__dirname, 'src'),

@@ -1,10 +1,11 @@
-import { FC } from 'react';
 import { IconProps, icons } from '@app/components/SVGIcon/SVGIcon.utils';
 
-const SVGIcon: FC<IconProps> = ({ onClick, icon, width, height, color, className, stroke, strokeWidth }) => {
+import { FC } from 'react';
+
+const SVGIcon: FC<IconProps> = ({ onClick, icon, width, height, color, className, stroke, strokeWidth, title }) => {
   const IconComponent = icons[icon];
   return IconComponent ? (
-    <span onClick={onClick}>{IconComponent({ width, height, color, className, stroke, strokeWidth })}</span>
+    <span onClick={onClick}>{IconComponent({ width, height, color, className, stroke, strokeWidth, title })}</span>
   ) : null;
 };
 
