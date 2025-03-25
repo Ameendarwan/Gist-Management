@@ -42,7 +42,7 @@ export const gistApi = createApi({
       }),
       invalidatesTags: (result, error, gistId) => [{ type: 'Gist', id: gistId }],
     }),
-    forkGist: builder.mutation<any, { gistId: string }>({
+    forkGist: builder.mutation<void, { gistId: string }>({
       query: ({ gistId }) => ({
         url: `gists/${gistId}/forks`,
         method: 'POST',

@@ -1,3 +1,5 @@
+import { Gist } from '@app/store/apis/gist/types';
+
 export interface GistInfoProps {
-  gist: any;
+  gist: Gist | null;
 }

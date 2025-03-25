@@ -10,9 +10,6 @@ export const rootReducer = combineReducers({
   [gistApi.reducerPath]: gistApi.reducer,
 });
 
-/**
- * Add any custom middleware here. Remove the `any` type and add your own middleware types.
- */
 const middleware = [gistApi.middleware] as Middleware[];
 
 /**

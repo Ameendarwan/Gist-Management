@@ -22,7 +22,7 @@ const GistDetails = () => {
   return (
     <div className="flex flex-col">
       <div className="mb-6 flex flex-col items-center justify-between gap-4 md:flex-row">
-        <GistInfo gist={gist} />
+        <GistInfo gist={gist ?? null} />
         <div className="flex flex-row items-center gap-6">
           <ActionButton
             title="Fork"
