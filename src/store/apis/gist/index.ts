@@ -20,6 +20,10 @@ export const gistApi = createApi({
       query: ({ page = 1, perPage = 10 }) => `gists?page=${page}&per_page=${perPage}`,
       providesTags: ['Gist'],
     }),
+    checkStarredGist: builder.query<boolean, { gistId: string }>({
+      query: ({ gistId }) => `gists/${gistId}/star`,
+      providesTags: ['Gist'],
+    }),
     getGistDetails: builder.query<Gist, string>({
       query: gistId => `gists/${gistId}`,
       providesTags: (result, error, id) => [{ type: 'Gist', id }],
@@ -64,4 +68,5 @@ export const {
   useStarGistMutation,
   useUnstarGistMutation,
   useForkGistMutation,
+  useCheckStarredGistQuery,
 } = gistApi;

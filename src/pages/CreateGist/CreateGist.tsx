@@ -51,15 +51,13 @@ const CreateGist: React.FC = () => {
         return;
       }
 
-      const response = await createGist({
+      await createGist({
         description: description,
         public: true,
         files: formattedFiles,
       }).unwrap();
 
       navigate(paths.home);
-
-      console.log('Gist created:', response);
     } catch (err) {
       console.error('Error creating gist:', err);
     }

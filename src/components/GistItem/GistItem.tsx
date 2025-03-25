@@ -2,19 +2,18 @@ import { Card, CardContent } from '@app/components/Card/Card';
 import { FC, useEffect, useState } from 'react';
 
 import CodeEditor from '@app/components/CodeEditor';
+import GistActionIcons from '../GistActionIcons';
 import GistInfo from '@app/components/GistInfo';
 import { GistItemProps } from './types';
-import SVGIcon from '@app/components/SVGIcon';
 import { paths } from '@app/routes/Routes.utils';
 import { useNavigate } from 'react-router-dom';
 
-const GistItem: FC<GistItemProps> = ({ gist }) => {
+const GistItem: FC<GistItemProps> = ({ gist, isStarred }) => {
   const navigate = useNavigate();
 
   const [content, setContent] = useState<string | null>(null);
 
   const firstFileName = Object.keys(gist?.files)?.[0] ?? '';
-
   const firstFileContentURL = Object.values(gist?.files)?.[0]?.raw_url ?? '';
 
   useEffect(() => {
@@ -24,7 +23,6 @@ const GistItem: FC<GistItemProps> = ({ gist }) => {
       .catch(error => console.error('Error fetching Gist content:', error));
   }, [firstFileContentURL]);
 
-  console.log('CC', firstFileContentURL);
   return (
     <Card>
       <CardContent className="group relative m-0 flex cursor-pointer flex-col rounded-md p-0">
@@ -37,8 +35,7 @@ const GistItem: FC<GistItemProps> = ({ gist }) => {
           onClick={() => navigate(paths.gistDetails(gist.id))}>
           <GistInfo gist={gist} />
           <div className="hidden flex-row justify-end gap-5 group-hover:flex md:pr-4">
-            <SVGIcon icon="fork" className="cursor-pointer" title="Fork" />
-            <SVGIcon icon="star" title="Star" />
+            <GistActionIcons gistId={gist.id ?? ''} isStarred={isStarred} />
           </div>
         </div>
 

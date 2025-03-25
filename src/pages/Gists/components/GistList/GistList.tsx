@@ -5,10 +5,10 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 
 import { Button } from '@app/components/Button/Button';
 import CustomPagination from '@app/components/CustomPagination';
+import GistActionIcons from '@app/components/GistActionIcons';
 import GistItem from '../../../../components/GistItem';
 import { GistListProps } from './types';
 import Loader from '@app/components/Loader/Loader';
-import SVGIcon from '@app/components/SVGIcon';
 import TimeAgo from '@app/components/TimeAgo';
 import { paths } from '@app/routes/Routes.utils';
 import { useGetPublicGistsQuery } from '@app/store/apis/gist';
@@ -19,6 +19,7 @@ const GistList: FC<GistListProps> = ({ isGrid }) => {
   const { search } = useOutletContext<{ search: string }>();
 
   const [page, setPage] = useState(1);
+  const [starredGists] = useState<{ [key: string]: boolean }>({});
 
   const { data: gists, isLoading, isError } = useGetPublicGistsQuery({ page, perPage: isGrid ? 6 : 10 });
 
@@ -65,8 +66,7 @@ const GistList: FC<GistListProps> = ({ isGrid }) => {
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-row justify-end gap-4">
-                    <SVGIcon icon="fork" className="cursor-pointer" title="Fork" />
-                    <SVGIcon icon="star" className="cursor-pointer" title="Star" />
+                    <GistActionIcons gistId={gist.id ?? ''} isStarred={starredGists[gist.id]} />
                   </div>
                 </TableCell>
               </TableRow>
@@ -75,7 +75,7 @@ const GistList: FC<GistListProps> = ({ isGrid }) => {
         </Table>
       ) : (
         <div className="grid-col-1 grid gap-4 md:grid-cols-3">
-          {filteredGists?.map(gist => <GistItem gist={gist} />)}
+          {filteredGists?.map(gist => <GistItem gist={gist} isStarred={starredGists[gist.id]} />)}
         </div>
       )}
 
