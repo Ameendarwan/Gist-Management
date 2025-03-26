@@ -11,7 +11,6 @@ This project has been bootstrapped with:
 - React Router
 - Tailwind
 - Shadcn
-- Husky
 - Stylelint
 - Babel
 - ESLint
@@ -55,6 +54,15 @@ Fork the project and run `npm install`.
 └── vitest.config.ts            # vitest configuration
 
 ```
+
+### Environment Variables
+
+This project requires environment variables to be set up.
+
+1. Copy the `.env.example` file to `.env`:
+   ```sh
+   cp .env.example .env
+   ```
 
 ### Development
 

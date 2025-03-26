@@ -17,6 +17,7 @@ import { Input } from '../Input/Input';
 import SVGIcon from '../SVGIcon';
 import logoImage from '@app/assets/logo.png';
 import { paths } from '@app/routes/Routes.utils';
+import { toast } from 'sonner';
 import useAuthListener from '@app/hooks/useAuthListener';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,7 +42,7 @@ const Header: FC<HeaderProps> = ({ search, onSearchChange }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      console.log('User logged out successfully');
+      toast.success('User logged out successfully');
     } catch (error) {
       console.error('Logout error:', error);
     }

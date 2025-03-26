@@ -13,8 +13,8 @@ const GistItem: FC<GistItemProps> = ({ gist, isStarred }) => {
 
   const [content, setContent] = useState<string | null>(null);
 
-  const firstFileName = Object.keys(gist?.files)?.[0] ?? '';
-  const firstFileContentURL = Object.values(gist?.files)?.[0]?.raw_url ?? '';
+  const firstFileName = Object.keys(gist?.files ?? {})?.[0] ?? '';
+  const firstFileContentURL = Object.values(gist?.files ?? {})?.[0]?.raw_url ?? '';
 
   // Fetch the content of the first file from the provided URL
   useEffect(() => {
@@ -29,14 +29,16 @@ const GistItem: FC<GistItemProps> = ({ gist, isStarred }) => {
       <CardContent className="group relative m-0 flex cursor-pointer flex-col rounded-md p-0">
         {/* Code Editor displaying the first file's content */}
         <div
-          className="h-[190px] w-full cursor-pointer rounded-md rounded-b-none border bg-backgroundGray pt-4 group-hover:border-primary"
+          className={
+            'h-[190px] w-full cursor-pointer rounded-md rounded-b-none border bg-backgroundGray pt-4 group-hover:border-primary'
+          }
           aria-label="Gist code preview">
           <CodeEditor bgColor="#FAFAFA" value={content ?? ''} readOnly onChange={() => {}} language="javascript" />
         </div>
 
         {/* Gist information and action icons */}
         <div
-          className="jus flex w-full items-center justify-between gap-3 rounded-md rounded-t-none border p-2"
+          className="jus flex w-full items-center justify-between gap-3 rounded-md rounded-t-none border border-t-0 p-2"
           onClick={() => navigate(paths.gistDetails(gist.id))}
           aria-label={`View details for gist ${gist.id}`}>
           <GistInfo gist={gist} />

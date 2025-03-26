@@ -1,11 +1,9 @@
 import { useCallback, useState } from 'react';
 import { useForkGistMutation, useStarGistMutation } from '@app/store/apis/gist';
 
-import { useToast } from './useToast';
+import { toast } from 'sonner';
 
 export const useGistActions = () => {
-  const { toast } = useToast();
-
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,19 +16,11 @@ export const useGistActions = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await starGist({ gistId }).unwrap();
-        toast({
-          variant: 'success',
-          title: 'Gist starred successfully!',
-        });
-        console.log('Starred gist:', response);
-      } catch (err) {
-        console.error('Error starring gist:', err);
+        await starGist({ gistId }).unwrap();
+        toast.success('Gist starred successfully!');
+      } catch {
         setError('Failed to star gist.');
-        toast({
-          variant: 'destructive',
-          title: 'Failed to star gist',
-        });
+        toast.error('Failed to star gist');
       } finally {
         setIsLoading(false);
       }
@@ -44,18 +34,11 @@ export const useGistActions = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await forkGist({ gistId }).unwrap();
-        console.log('Forked gist:', response);
-        toast({
-          variant: 'success',
-          title: 'Gist forked successfully!',
-        });
+        await forkGist({ gistId }).unwrap();
+        toast.success('Gist forked successfully!');
       } catch (err) {
         console.error('Error forking gist:', err);
-        toast({
-          variant: 'destructive',
-          title: 'Failed to fork gist',
-        });
+        toast.error('Failed to fork gist');
         setError('Failed to fork gist.');
       } finally {
         setIsLoading(false);

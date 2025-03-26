@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import {
   Pagination,
   PaginationContent,
@@ -18,15 +18,39 @@ interface CustomPaginationProps {
 }
 
 const CustomPagination: FC<CustomPaginationProps> = ({ page, totalPages, onPageChange, className = '' }) => {
+  const [inputValue, setInputValue] = useState<string>(String(page));
+
+  useEffect(() => {
+    setInputValue(String(page));
+  }, [page]);
+
   const handlePageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newPage = Number(e.target.value);
+    const value = e.target.value;
+
+    // Allow empty input for intermediate typing
+    if (value === '') {
+      setInputValue('');
+      return;
+    }
+
+    const newPage = Number(value);
+
+    // Update inputValue but only update page when valid
     if (!isNaN(newPage) && newPage >= 1 && newPage <= totalPages) {
+      setInputValue(value);
       onPageChange(newPage);
     }
   };
 
+  const handleBlur = () => {
+    // Reset to current page if input is empty or invalid
+    if (inputValue === '' || isNaN(Number(inputValue))) {
+      setInputValue(String(page));
+    }
+  };
+
   return (
-    <Pagination className={`text-text flex items-center justify-end gap-2 ${className}`}>
+    <Pagination className={`flex items-center justify-end gap-2 text-text ${className}`}>
       <PaginationContent className="flex items-center gap-2">
         <PaginationItem>
           <Button
@@ -39,18 +63,19 @@ const CustomPagination: FC<CustomPaginationProps> = ({ page, totalPages, onPageC
           </Button>
         </PaginationItem>
 
-        <span className="text-text text-sm">Page</span>
+        <span className="text-sm text-text">Page</span>
 
         <PaginationItem>
           <Input
             type="number"
-            value={page}
+            value={inputValue}
             onChange={handlePageChange}
+            onBlur={handleBlur}
             className="h-8 w-12 rounded-md border border-gray-400 text-center focus:ring-0 [&::-moz-number-spin-box]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </PaginationItem>
 
-        <span className="text-text text-sm">of {totalPages}</span>
+        <span className="text-sm text-text">of {totalPages}</span>
 
         <PaginationItem>
           <Button

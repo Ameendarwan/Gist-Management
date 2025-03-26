@@ -19,7 +19,7 @@ const GistList: FC<GistListProps> = ({ isGrid }) => {
   const totalPages = 14;
 
   const filteredGists = useMemo(
-    () => gists?.filter(gist => gist?.description?.toLowerCase().includes(search?.toLowerCase())),
+    () => gists?.filter(gist => gist?.id?.toLowerCase().includes(search?.toLowerCase())),
     [gists, search]
   );
 
@@ -31,7 +31,7 @@ const GistList: FC<GistListProps> = ({ isGrid }) => {
       {!isGrid ? (
         <GistTable gists={filteredGists ?? []} starredGists={starredGists ?? {}} />
       ) : (
-        <div className="grid-col-1 grid gap-4 md:grid-cols-3">
+        <div className="grid-col-1 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Grid View */}
           {filteredGists?.map(gist => <GistItem gist={gist} isStarred={starredGists[gist.id]} />)}
         </div>

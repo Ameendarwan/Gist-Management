@@ -4,13 +4,12 @@ import { GistFile } from '@app/store/apis/gist/types';
 import { Input } from '@app/components/Input/Input';
 import SVGIcon from '@app/components/SVGIcon';
 import { paths } from '@app/routes/Routes.utils';
+import { toast } from 'sonner';
 import { useCreateGistMutation } from '@app/store/apis/gist';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useToast } from '@app/hooks/useToast';
 
 const CreateGist = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const [description, setDescription] = useState('');
@@ -59,17 +58,11 @@ const CreateGist = () => {
         files: formattedFiles,
       }).unwrap();
 
-      toast({
-        variant: 'success',
-        title: 'Gist has been created successfully!',
-      });
+      toast.success('Gist has been created successfully!');
 
       navigate(paths.home);
     } catch (err) {
-      toast({
-        variant: 'success',
-        title: 'Failed to create gist!',
-      });
+      toast.error('Failed to create gist!');
       console.error('Error creating gist:', err);
     }
   };
@@ -98,13 +91,17 @@ const CreateGist = () => {
                 onChange={e => updateFile(index, 'filename', e.target.value)}
                 aria-label={`Filename input for file ${index + 1}`}
               />
-              <SVGIcon
-                title="Remove"
-                icon="trash"
-                className="cursor-pointer"
-                onClick={() => removeFile(index)}
-                aria-label={`Remove file ${index + 1}`}
-              />
+              <Button
+                className="m-0 max-h-max max-w-max bg-transparent p-0 hover:bg-transparent"
+                aria-label={`Remove file ${index + 1}`}>
+                <SVGIcon
+                  title="Remove"
+                  icon="trash"
+                  className="cursor-pointer"
+                  onClick={() => removeFile(index)}
+                  aria-label={`Remove file ${index + 1}`}
+                />
+              </Button>
             </div>
             <div className="h-[250px]">
               <CodeEditor
