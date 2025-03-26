@@ -1,7 +1,6 @@
 import Header from '@app/components/Header';
 import Loader from '../Loader/Loader';
 import { Outlet } from 'react-router-dom';
-import { Toaster } from '../Toaster/Toaster';
 import useAuthListener from '@app/hooks/useAuthListener';
 import { useState } from 'react';
 
@@ -15,8 +14,6 @@ const Layout = () => {
 
   return (
     <div className="flex w-full flex-col" aria-label="Application layout">
-      {/* Toaster for alerts */}
-      <Toaster />
       {/* Header with search functionality */}
       <Header search={search} onSearchChange={setSearch} />
 
