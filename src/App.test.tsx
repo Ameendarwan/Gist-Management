@@ -1,4 +1,7 @@
+import '../tests/mocks';
+
 import { describe, it } from 'vitest';
+
 import App from './App';
 import { render } from '../tests/utils';
 
