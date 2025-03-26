@@ -8,7 +8,7 @@ const NotFound = () => {
       <header className="z-50 mb-auto flex w-full justify-center py-4">
         <nav className="px-4 sm:px-6 lg:px-8">
           <a className="flex-none text-xl font-semibold dark:text-white sm:text-3xl" href="#" aria-label="Brand">
-            App
+            Gist App
           </a>
         </nav>
       </header>

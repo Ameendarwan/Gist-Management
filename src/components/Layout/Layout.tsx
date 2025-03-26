@@ -1,6 +1,7 @@
 import Header from '@app/components/Header';
 import Loader from '../Loader/Loader';
 import { Outlet } from 'react-router-dom';
+import { Toaster } from '../Toaster/Toaster';
 import useAuthListener from '@app/hooks/useAuthListener';
 import { useState } from 'react';
 
@@ -9,12 +10,18 @@ const Layout = () => {
 
   const { loading } = useAuthListener();
 
-  if (loading) return <Loader isFullPageLoader />;
+  // Show a full-page loader while authentication status is being checked
+  if (loading) return <Loader isFullPageLoader aria-label="Loading content" />;
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col" aria-label="Application layout">
+      {/* Toaster for alerts */}
+      <Toaster />
+      {/* Header with search functionality */}
       <Header search={search} onSearchChange={setSearch} />
-      <main className="w-full px-6 md:px-[118px]">
+
+      {/* Main content section */}
+      <main className="w-full px-6 md:px-[118px]" aria-label="Main content">
         <Outlet context={{ search }} />
       </main>
     </div>

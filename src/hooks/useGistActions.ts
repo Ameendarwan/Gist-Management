@@ -1,7 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useForkGistMutation, useStarGistMutation } from '@app/store/apis/gist';
 
+import { useToast } from './useToast';
+
 export const useGistActions = () => {
+  const { toast } = useToast();
+
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,10 +19,18 @@ export const useGistActions = () => {
       setError(null);
       try {
         const response = await starGist({ gistId }).unwrap();
+        toast({
+          variant: 'success',
+          title: 'Gist starred successfully!',
+        });
         console.log('Starred gist:', response);
       } catch (err) {
         console.error('Error starring gist:', err);
         setError('Failed to star gist.');
+        toast({
+          variant: 'destructive',
+          title: 'Failed to star gist',
+        });
       } finally {
         setIsLoading(false);
       }
@@ -34,8 +46,16 @@ export const useGistActions = () => {
       try {
         const response = await forkGist({ gistId }).unwrap();
         console.log('Forked gist:', response);
+        toast({
+          variant: 'success',
+          title: 'Gist forked successfully!',
+        });
       } catch (err) {
         console.error('Error forking gist:', err);
+        toast({
+          variant: 'destructive',
+          title: 'Failed to fork gist',
+        });
         setError('Failed to fork gist.');
       } finally {
         setIsLoading(false);

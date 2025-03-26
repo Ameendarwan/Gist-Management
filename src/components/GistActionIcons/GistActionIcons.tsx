@@ -12,6 +12,15 @@ const GistActionIcons: FC<GistActionIconsProps> = ({ gistId, isStarred }) => {
         onClick={ev => {
           ev.stopPropagation();
           handleForkGist(gistId ?? '');
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Fork this gist"
+        onKeyDown={ev => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.stopPropagation();
+            handleForkGist(gistId ?? '');
+          }
         }}>
         <SVGIcon icon="fork" className="cursor-pointer" title="Fork" />
       </div>
@@ -19,6 +28,15 @@ const GistActionIcons: FC<GistActionIconsProps> = ({ gistId, isStarred }) => {
         onClick={ev => {
           ev.stopPropagation();
           handleStarGist(gistId ?? '');
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label={isStarred ? 'Unstar this gist' : 'Star this gist'}
+        onKeyDown={ev => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.stopPropagation();
+            handleStarGist(gistId ?? '');
+          }
         }}>
         <SVGIcon icon={isStarred ? 'filledStar' : 'star'} title="Star" />
       </div>

@@ -9,12 +9,15 @@ const ActionButton: FC<ActionButtonProps> = ({ title, count, isDisabled, handleC
     <Button
       disabled={isDisabled}
       className="m-0 flex h-10 cursor-pointer flex-row items-center gap-0 rounded-md border border-primary bg-white p-0 hover:bg-transparent"
-      onClick={handleClick}>
-      <div className="flex h-full flex-row items-center gap-2 !bg-primary px-4">
-        <SVGIcon icon="fork" className="cursor-pointer" title="Fork" color="fill-white" />
+      onClick={handleClick}
+      aria-label={`${title} button, count: ${count}`}>
+      <div className="flex h-full flex-row items-center gap-2 !bg-primary px-4" aria-label={`${title} icon and label`}>
+        <SVGIcon icon="fork" className="cursor-pointer" title={title} color="fill-white" />
         <span className="text-sm font-semibold text-white">{title}</span>
       </div>
-      <span className="px-4 text-sm font-semibold text-primary">{count ?? 0}</span>
+      <span className="px-4 text-sm font-semibold text-primary" aria-label={`${title} count`}>
+        {count ?? 0}
+      </span>
     </Button>
   );
 };

@@ -9,7 +9,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ value, onChange, readOnly, bgColor, l
   useEffect(() => {
     if (monaco) {
       monaco.editor.defineTheme('custom-theme', {
-        base: 'hc-light', // Change to "vs" or "hc-black" if needed
+        base: 'hc-light',
         inherit: true,
         rules: [],
         colors: {
@@ -28,6 +28,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ value, onChange, readOnly, bgColor, l
       theme="custom-theme"
       options={{
         readOnly,
+        stickyScroll: { enabled: false },
         scrollbar: {
           vertical: 'hidden',
           horizontal: 'hidden',
@@ -40,6 +41,11 @@ const CodeEditor: FC<CodeEditorProps> = ({ value, onChange, readOnly, bgColor, l
         fontSize: 12,
         minimap: { enabled: false },
         wordWrap: 'on',
+        guides: {
+          indentation: false, // Disables indentation guides
+          bracketPairs: false, // Disables bracket pair guides
+          bracketPairsHorizontal: false, // Ensures no horizontal guides
+        },
       }}
       onChange={val => onChange(val || '')}
     />

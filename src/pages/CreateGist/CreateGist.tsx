@@ -7,8 +7,10 @@ import { paths } from '@app/routes/Routes.utils';
 import { useCreateGistMutation } from '@app/store/apis/gist';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useToast } from '@app/hooks/useToast';
 
-const CreateGist: React.FC = () => {
+const CreateGist = () => {
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   const [description, setDescription] = useState('');
@@ -57,8 +59,17 @@ const CreateGist: React.FC = () => {
         files: formattedFiles,
       }).unwrap();
 
+      toast({
+        variant: 'success',
+        title: 'Gist has been created successfully!',
+      });
+
       navigate(paths.home);
     } catch (err) {
+      toast({
+        variant: 'success',
+        title: 'Failed to create gist!',
+      });
       console.error('Error creating gist:', err);
     }
   };
@@ -69,29 +80,38 @@ const CreateGist: React.FC = () => {
       <div className="flex w-full flex-col md:w-[61%]">
         {/* Description Input */}
         <Input
-          className="border-darkBorder !placeholder-lightText mb-4 h-10 w-full rounded-md focus:border-primary"
+          className="mb-4 h-10 w-full rounded-md border-darkBorder !placeholder-lightText focus:border-primary"
           placeholder="Gist Description"
           value={description}
           onChange={e => setDescription(e.target.value)}
+          aria-label="Gist Description Input"
         />
 
         {/* File Inputs */}
         {files.map((file, index) => (
-          <div key={index} className="mb-4 rounded-lg border">
-            <div className="bg-backgroundGray mb-2 flex h-[60px] items-center gap-4 px-2">
+          <div key={index} className="mb-4 rounded-lg border" aria-label={`File ${index + 1}`}>
+            <div className="mb-2 flex h-[60px] items-center gap-4 bg-backgroundGray px-2">
               <Input
-                className="border-darkBorder !placeholder-lightText flex h-10 w-full rounded-md focus:border-primary md:min-w-[250px]"
+                className="flex h-10 w-full rounded-md border-darkBorder !placeholder-lightText focus:border-primary md:min-w-[250px]"
                 placeholder="Filename including extension..."
                 value={file.filename}
                 onChange={e => updateFile(index, 'filename', e.target.value)}
+                aria-label={`Filename input for file ${index + 1}`}
               />
-              <SVGIcon title="Remove" icon="trash" className="cursor-pointer" onClick={() => removeFile(index)} />
+              <SVGIcon
+                title="Remove"
+                icon="trash"
+                className="cursor-pointer"
+                onClick={() => removeFile(index)}
+                aria-label={`Remove file ${index + 1}`}
+              />
             </div>
             <div className="h-[250px]">
               <CodeEditor
                 value={file.content}
                 onChange={val => updateFile(index, 'content', val)}
                 language="javascript"
+                aria-label={`Code editor for file ${index + 1}`}
               />
             </div>
           </div>
@@ -99,10 +119,14 @@ const CreateGist: React.FC = () => {
 
         {/* Add File & Create Gist Buttons */}
         <div className="flex flex-row items-center justify-between">
-          <Button variant="muted" onClick={addFile}>
+          <Button variant="muted" onClick={addFile} aria-label="Add another file">
             Add File
           </Button>
-          <Button onClick={handleCreateGist} loading={isLoading} className={isLoading ? 'border-primary bg-white' : ''}>
+          <Button
+            onClick={handleCreateGist}
+            loading={isLoading}
+            className={isLoading ? 'border-primary bg-white' : ''}
+            aria-label="Create gist button">
             Create Gist
           </Button>
         </div>
