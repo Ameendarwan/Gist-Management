@@ -74,17 +74,6 @@ The project runs on port `3000` by default, but this can be changed in `./vite.c
 
 To build the project in `prodction` mode `npm run build`.
 
-### Commit with Husky
-
-Husky is used to enforce pre-commit hooks to ensure code quality before commits. Follow these steps to commit:
-
-- Make your changes to the codebase.
-- Stage the changes with git add ..
-- Run git commit -m "Your commit message".
-- Husky will trigger and run lint-staged to check for formatting issues and linting errors.
-- If all checks pass, the commit will be completed.
-- If any checks fail, Husky will prevent the commit and show you the issues to fix.
-
 ### IDE Configuration
 
 The suggested IDE for this project is VSCode.
