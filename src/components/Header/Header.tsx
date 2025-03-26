@@ -15,6 +15,7 @@ import { FC } from 'react';
 import { HeaderProps } from './types';
 import { Input } from '../Input/Input';
 import SVGIcon from '../SVGIcon';
+import auth from '@app/utils/auth';
 import logoImage from '@app/assets/logo.png';
 import { paths } from '@app/routes/Routes.utils';
 import { toast } from 'sonner';
@@ -22,7 +23,7 @@ import useAuthListener from '@app/hooks/useAuthListener';
 import { useNavigate } from 'react-router-dom';
 
 const Header: FC<HeaderProps> = ({ search, onSearchChange }) => {
-  const auth = getAuth();
+  const firebaseAuth = getAuth();
   const navigate = useNavigate();
 
   const { user } = useAuthListener();
@@ -30,9 +31,18 @@ const Header: FC<HeaderProps> = ({ search, onSearchChange }) => {
   // Handles GitHub login via Firebase authentication
   const handleGitHubLogin = async () => {
     const provider = new GithubAuthProvider();
-    provider.addScope('read:user'); // Optional: Request additional scopes
+    provider.addScope('read:user');
+    provider.addScope('gist');
+
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(firebaseAuth, provider);
+      const credential = GithubAuthProvider.credentialFromResult(result);
+
+      if (!credential) throw new Error('GitHub credentials not found');
+
+      const githubToken = credential.accessToken;
+
+      if (githubToken) auth.saveToken(githubToken);
     } catch (error) {
       console.error('Error signing in:', error);
     }
@@ -41,7 +51,7 @@ const Header: FC<HeaderProps> = ({ search, onSearchChange }) => {
   // Handles user logout from Firebase authentication
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await signOut(firebaseAuth);
       toast.success('User logged out successfully');
     } catch (error) {
       console.error('Logout error:', error);
@@ -93,7 +103,7 @@ const Header: FC<HeaderProps> = ({ search, onSearchChange }) => {
             <DropdownMenuTrigger asChild>
               <Avatar className="h-10 w-10 cursor-pointer border border-white">
                 <AvatarImage
-                  src={auth.currentUser?.photoURL ?? 'https://randomuser.me/api/portraits/men/45.jpg'}
+                  src={firebaseAuth?.currentUser?.photoURL ?? 'https://randomuser.me/api/portraits/men/45.jpg'}
                   alt="User avatar"
                 />
                 <AvatarFallback>AD</AvatarFallback>
@@ -107,7 +117,7 @@ const Header: FC<HeaderProps> = ({ search, onSearchChange }) => {
               <DropdownMenuLabel>
                 <span className="text-xs font-normal">Signed in as </span> <br />{' '}
                 <span className="text-base font-bold text-primary">
-                  {auth.currentUser?.displayName || user?.reloadUserInfo?.screenName || ''}
+                  {firebaseAuth?.currentUser?.displayName || user?.reloadUserInfo?.screenName || ''}
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { getAuth } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
 
 export interface MyToken {
@@ -39,25 +38,6 @@ const auth = {
 
   clearToken: () => {
     Cookies.remove('accessToken');
-  },
-
-  getFirebaseToken: async () => {
-    const authInstance = getAuth();
-    const user = authInstance.currentUser;
-
-    if (!user) {
-      console.warn('No user is signed in.');
-      return null;
-    }
-
-    try {
-      const token = await user.getIdToken(true); // Force refresh to get the latest token
-      auth.saveToken(token); // Store token in cookies
-      return token;
-    } catch (error) {
-      console.error('Error fetching Firebase token:', error);
-      return null;
-    }
   },
 };
 
